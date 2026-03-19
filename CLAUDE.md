@@ -1,37 +1,41 @@
-# CLAUDE.md
+# CLAUDE.md — CrimsonMap
 
 ## Project
-<!-- TODO: Replace with project name and description -->
-**Project:** [PROJECT_NAME]
-**Stack:** [e.g. React Native + Supabase + Stripe]
-**Goal:** [What this app does]
+**Project:** CrimsonMap
+**Stack:** React + Leaflet.js (interactive map) + Supabase (location DB) + Vercel (hosting)
+**Goal:** Interactive map and completion tracker for Crimson Desert. First-mover advantage — game launched March 19, 2026.
+
+## What It Does
+- Zoomable interactive world map with pinned locations for every collectible, boss, secret, and territory
+- Players click pins to see details, mark as found/collected
+- Progress tracker shows % completion per category
+- Community submission form for new locations
+
+## Monetization
+- Free tier: full map access
+- Pro tier ($3.99/mo): saved progress, custom markers, no ads
+- Google AdSense for free tier users
+
+## Data Model
+- Locations table: id, type (boss/collectible/secret/territory), name, description, x, y, image_url, submitted_by, verified
+- User progress: user_id, location_id, found_at
+
+## Tech Stack
+- Frontend: React + Leaflet.js (react-leaflet)
+- Base map: Custom game world image as tile layer
+- DB: Supabase (locations + user progress)
+- Auth: Supabase Auth (optional, for progress saving)
+- Hosting: Vercel
+- Ads: Google AdSense
+
+## Content Strategy
+- Seed with known locations from Pearl Abyss press kit + Reddit/YouTube
+- Community submission form → moderator review → publish
+- Post in r/CrimsonDesert to crowdsource locations
 
 ## gstack
-Use `/browse` from gstack for all web browsing. Never use `mcp__claude-in-chrome__*` tools.
+Use `/browse` from gstack for all web browsing.
+Available skills: `/office-hours`, `/plan-eng-review`, `/review`, `/ship`, `/qa`, `/browse`
 
-Available skills: `/office-hours`, `/plan-ceo-review`, `/plan-eng-review`, `/plan-design-review`,
-`/design-consultation`, `/review`, `/ship`, `/browse`, `/qa`, `/qa-only`, `/design-review`,
-`/setup-browser-cookies`, `/retro`, `/debug`, `/document-release`
-
-If gstack skills aren't working, run: `cd .claude/skills/gstack && ./setup`
-
-## Session Hook
-A session-start hook runs automatically on every new session. It:
-- Prints current branch + last 5 commits
-- Shows git status
-- Installs npm deps
-- Checks required env vars
-
-## New Project Setup
-This repo is Franky's standard project scaffold. To replicate for a new project:
-1. Clone this template repo
-2. Update `CLAUDE.md` with project name/stack/goal
-3. Update env var list in `.claude/hooks/session-start.sh`
-4. Initialize your project code
-5. Push to GitHub
-
-## Standards
-- Always run `/review` before `/ship`
-- Always run `/qa` after major features
-- Target QA health score 80+ before launch
-- Fix CORS, auth issues, and accessibility before shipping
+## Priority
+Ship FAST. Game launched today. Every day matters for SEO and first-mover advantage.

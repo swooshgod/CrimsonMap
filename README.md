@@ -1,19 +1,20 @@
-# project-template
+# CrimsonMap 🗺️
 
-Franky's standard project scaffold for new apps.
+Interactive map and completion tracker for Crimson Desert.
 
-## What's included
-- `.claude/hooks/session-start.sh` — auto-runs on every Claude Code session
-- `.claude/settings.json` — hook registration
-- `.claude/skills/gstack/` — Garry Tan's virtual engineering team
-- `CLAUDE.md` — standard instructions for Claude Code
+**Game launched March 19, 2026 — first mover wins.**
 
-## How to use
-1. Click "Use this template" on GitHub
-2. Clone your new repo
-3. Update `CLAUDE.md` with your project details
-4. Update env vars in `.claude/hooks/session-start.sh`
-5. Start building
+## Features
+- Interactive world map with all locations
+- Bosses, collectibles, secrets, territories, crafting nodes
+- Mark locations as found
+- Progress tracker
+- Community submissions
 
 ## Stack
-Adapt for any stack. Originally built for React Native + Supabase + Expo.
+- React + Leaflet.js
+- Supabase
+- Vercel
+
+## Contributing
+Found a location we're missing? Submit it via the in-app form.
