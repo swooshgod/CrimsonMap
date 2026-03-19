@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react'
-import { MapContainer, TileLayer, CircleMarker, Popup, useMap } from 'react-leaflet'
+import { MapContainer, ImageOverlay, CircleMarker, Popup, useMap } from 'react-leaflet'
+import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
+import { MAP_W, MAP_H } from '../data/locations'
 
 const TYPE_COLORS = {
   boss: '#ff4444',
@@ -9,13 +11,17 @@ const TYPE_COLORS = {
   territory: '#44ff88',
 }
 
+// CRS.Simple bounds: [[0,0], [height, width]] — y=0 is top of image
+const MAP_BOUNDS = [[0, 0], [MAP_H, MAP_W]]
+
 function FlyToSelected({ selectedId, locations }) {
   const map = useMap()
   useEffect(() => {
     if (selectedId) {
       const loc = locations.find(l => l.id === selectedId)
       if (loc) {
-        map.flyTo([loc.y, loc.x], 4, { duration: 0.5 })
+        // In CRS.Simple with our setup: lat = MAP_H - y (invert y so 0=bottom), lng = x
+        map.flyTo([MAP_H - loc.y, loc.x], 1, { duration: 0.5 })
       }
     }
   }, [selectedId, locations, map])
@@ -34,25 +40,27 @@ function GameMap({ locations, foundIds, toggleFound, selectedId, setSelectedId }
   return (
     <div className="map-area">
       <MapContainer
-        center={[-40, 50]}
-        zoom={3}
-        minZoom={2}
-        maxZoom={6}
+        center={[MAP_H / 2, MAP_W / 2]}
+        zoom={0}
+        minZoom={-1}
+        maxZoom={3}
+        crs={L.CRS.Simple}
+        maxBounds={[[-100, -100], [MAP_H + 100, MAP_W + 100]]}
+        maxBoundsViscosity={0.8}
         style={{ height: '100%', width: '100%' }}
         zoomControl={true}
       >
-        <TileLayer
-          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-          attribution='CrimsonMap | Tiles &copy; CartoDB'
-        />
+        <ImageOverlay url="/pywel-map.webp" bounds={MAP_BOUNDS} />
         <FlyToSelected selectedId={selectedId} locations={locations} />
         {locations.map(loc => {
           const isFound = foundIds.has(loc.id)
+          // Convert pixel coords to CRS.Simple: lat = MAP_H - y (invert), lng = x
+          const latLng = [MAP_H - loc.y, loc.x]
           return (
             <CircleMarker
               key={loc.id}
-              center={[loc.y, loc.x]}
-              radius={loc.type === 'territory' ? 12 : 8}
+              center={latLng}
+              radius={loc.type === 'territory' ? 14 : 9}
               pathOptions={{
                 color: TYPE_COLORS[loc.type],
                 fillColor: TYPE_COLORS[loc.type],
